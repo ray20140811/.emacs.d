@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 #-*- coding:utf-8 -*-
 import os
+import datetime
 
 home = os.path.expanduser('~')
 
@@ -22,5 +23,37 @@ def check_backup_folder():
     backup_folder_name = os.path.join(base_folder_name, 'backup')
     check_folder(backup_folder_name)
 
+def backup_file(file_name):
+    if os.name == "nt":
+        source_file_name = os.path.join(home, 'AppData', 'Roaming', file_name)
+    else:
+        source_file_name = os.path.join(home, file_name)
+    if os.path.exists(source_file_name):
+        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+        new_file_name = f'{source_file_name}_{timestamp}'
+        os.rename(source_file_name, new_file_name)
+        print(f'backup {source_file_name} to {new_file_name}')
+
+def check_file():
+    backup_file(os.path.join('.emacs.d', 'init.el'))
+    backup_file('.emacs')
+
+def copy_file():
+    if os.name == "nt":
+        source_file_name = os.path.join(os.getcwd(), 'windows-init.el')
+        target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', 'init.el')
+        #print(f'copy {source_file_name} to {target_file_name}')
+    else:
+        source_file_name = os.path.join(os.getcwd(), 'minimal-init.el')
+        target_file_name = os.path.join(home, '.emacs.d', 'init.el')
+    with open(source_file_name, 'r') as source_file:
+        with open(target_file_name, 'w') as target_file:
+            target_file.write(source_file.read())
+    print(f'copy {source_file_name} to {target_file_name}')
+
 if __name__ == '__main__':
     check_backup_folder()
+    check_file()
+    copy_file()
+    
+    

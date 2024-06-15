@@ -10,5 +10,6 @@ else
     echo "backup directory already exists"
 fi
 
-#rsync -avz --progress --bwlimit=1M rsync://elpa.gnu.org/elpa/ ~/.emacs.d/elpa
-#rsync -avz --progress --bwlimit=1M rsync://melpa.org/packages/ ~/.emacs.d/melpa 
+rsync -avz --progress --bwlimit=1M rsync://elpa.gnu.org/elpa/ ~/.emacs.d/elpa
+
+rsync -avz --progress --bwlimit=1M rsync://melpa.org/packages/ ~/.emacs.d/melpa 

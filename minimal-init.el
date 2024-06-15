@@ -14,3 +14,23 @@
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
 
 (setq inhibit-startup-screen t)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; set default font
+(cond
+ ((eq system-type 'windows-nt)
+  (when (member "Andika" (font-family-list))
+    (set-frame-font "Andika" t t)))
+ ((eq system-type 'gnu/linux)
+  (when (member "DejaVu Sans Mono" (font-family-list))
+    (set-frame-font "DejaVu Sans Mono" t t))))
+
+;; set default directory
+(cond
+ ((eq system-type 'windows-nt)
+  (setq default-directory "D:/Ray/"))
+ ((eq system-type 'gnu/linux)
+  (setq default-directory "~/")))
+
+(display-time-mode 1)  
