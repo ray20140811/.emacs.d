@@ -11,6 +11,7 @@
 ;			 ("melpa" . "~/.emacs.d/melpa/")
 ;			 ("org" . "~/.emacs.d/elpa/org/")))
 
+(set-frame-font "Andika" t)
 
 (setq default-directory "D:/Ray/")        
 
@@ -19,7 +20,6 @@
 (load-theme 'deeper-blue)
 
 (display-time-mode 1)
-(global-linum-mode)
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -28,12 +28,11 @@
 (setq-default cursor-type 'bar)
 (setq-default mode-line-format nil)
 
+(setq default-frame-alist '((undecorated . t)))
+
 (add-to-list 'default-frame-alist '(drag-internal-border . 1))
 (add-to-list 'default-frame-alist '(internal-border-width . 10))
 
-(setq default-frame-alist '((undecorated . t)))
-
-(set-frame-font "Andika" t)
 
 ;; Set UTF-8 as the default encoding
 (prefer-coding-system 'utf-8)
@@ -56,3 +55,13 @@
 
 (frame-center)
 
+(global-linum-mode)
+
+(defun my-split-window-below (&optional arg)
+  "Split the current window 70/30 rather than 50/50.
+A single-digit prefix argument gives the top window arg*10%."
+  (interactive "P")
+  (let ((proportion (* (or arg 7) 0.1)))
+    (split-window-below (round (* proportion (window-height))))))
+
+(global-set-key (kbd "C-x 2") 'my-split-window-below)

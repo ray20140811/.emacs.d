@@ -15,6 +15,10 @@
 
 (setq inhibit-startup-screen t)
 
+(load-theme 'deeper-blue)
+
+(setq-default cursor-type 'bar)
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; set default font

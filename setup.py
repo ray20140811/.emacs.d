@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 import os
 import datetime
+import argparse
 
 home = os.path.expanduser('~')
 
@@ -38,13 +39,17 @@ def check_file():
     backup_file(os.path.join('.emacs.d', 'init.el'))
     backup_file('.emacs')
 
-def copy_file():
+def copy_file(source):
     if os.name == "nt":
-        source_file_name = os.path.join(os.getcwd(), 'windows-init.el')
+        if source is None:
+            source = 'default-init.el'
+        source_file_name = os.path.join(os.getcwd(), source)
         target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', 'init.el')
         #print(f'copy {source_file_name} to {target_file_name}')
     else:
-        source_file_name = os.path.join(os.getcwd(), 'minimal-init.el')
+        if source is None:
+            source = 'default-init.el'
+        source_file_name = os.path.join(os.getcwd(), source)
         target_file_name = os.path.join(home, '.emacs.d', 'init.el')
     with open(source_file_name, 'r') as source_file:
         with open(target_file_name, 'w') as target_file:
@@ -52,8 +57,12 @@ def copy_file():
     print(f'copy {source_file_name} to {target_file_name}')
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("source", nargs="?", help="replace init.el from argument")
+    args = parser.parse_args()    
+    
     check_backup_folder()
     check_file()
-    copy_file()
+    copy_file(args.source)
     
     
