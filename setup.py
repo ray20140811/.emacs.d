@@ -39,30 +39,52 @@ def check_file():
     backup_file(os.path.join('.emacs.d', 'init.el'))
     backup_file('.emacs')
 
-def copy_file(source):
+# def copy_init_file(source):
+#     if os.name == "nt":
+#         if source is None:
+#             source = 'default-init.el'
+#         source_file_name = os.path.join(os.getcwd(), source)
+#         target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', 'init.el')
+#         #print(f'copy {source_file_name} to {target_file_name}')
+#     else:
+#         if source is None:
+#             source = 'default-init.el'
+#         source_file_name = os.path.join(os.getcwd(), source)
+#         target_file_name = os.path.join(home, '.emacs.d', 'init.el')
+#     with open(source_file_name, 'r') as source_file:
+#         with open(target_file_name, 'w') as target_file:
+#             target_file.write(source_file.read())
+#     print(f'copy {source_file_name} to {target_file_name}')
+
+def copy_file(source, target):
+    if source is None:
+        source = 'default-init.el'
+    if target is None:
+        target = 'init.el'
+
     if os.name == "nt":
-        if source is None:
-            source = 'default-init.el'
         source_file_name = os.path.join(os.getcwd(), source)
-        target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', 'init.el')
-        #print(f'copy {source_file_name} to {target_file_name}')
+        target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', target)
     else:
-        if source is None:
-            source = 'default-init.el'
         source_file_name = os.path.join(os.getcwd(), source)
-        target_file_name = os.path.join(home, '.emacs.d', 'init.el')
+        target_file_name = os.path.join(home, '.emacs.d', target)
     with open(source_file_name, 'r') as source_file:
         with open(target_file_name, 'w') as target_file:
             target_file.write(source_file.read())
-    print(f'copy {source_file_name} to {target_file_name}')
+    print(f'copy {source_file_name} to {target_file_name}')    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("source", nargs="?", help="replace init.el from argument")
-    args = parser.parse_args()    
+    parser.add_argument("sourcefile", nargs="?", help="replace init.el from argument")
+    args = parser.parse_args()
+
+    my_function_list = [ 'tip-of-the-day.el', 'my-function.el']
     
     check_backup_folder()
     check_file()
-    copy_file(args.source)
+    copy_file(args.sourcefile, 'init.el')
+    
+    for file in my_function_list:
+        copy_file(file, file)
     
     

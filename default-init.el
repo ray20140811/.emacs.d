@@ -47,19 +47,17 @@
 
 (display-time-mode 1)  
 
+(load-file "~/.emacs.d/tip-of-the-day.el")
+(load-file "~/.emacs.d/my-function.el")
+
 ;(split-window-below 10)
 
-(defun my-split-window-below (&optional arg)
-  "Split the current window 70/30 rather than 50/50.
-A single-digit prefix argument gives the top window arg*10%."
-  (interactive "P")
-  (let ((proportion (* (or arg 7) 0.1)))
-    (split-window-below (round (* proportion (window-height))))))
-
-;(global-set-key (kbd "C-x 2") 'my-split-window-below)
+(global-set-key (kbd "C-x 2") 'my-split-window-below)
+(global-set-key (kbd "<f5>") 'my-set-next-font)
+(global-set-key (kbd "<f6>") 'tip-of-the-day)
+(global-set-key (kbd "<f7>") 'my-next-theme)
 
 (my-split-window-below)
-
 
 (eshell)
 
