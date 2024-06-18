@@ -6,8 +6,18 @@ A single-digit prefix argument gives the top window arg*10%."
     (split-window-below (round (* proportion (window-height))))))
 
 ;; font
-(defvar my-font-list '("Andika" "Helvetica" "JetBrains Mono" "IntelOne Mono" "Roboto Mono" "Fira Code" "Lucida Console")
-    "List of fonts to cycle through.")
+;(defvar my-font-list '("Andika" "Helvetica" "JetBrains Mono" "IntelOne Mono" "Roboto Mono" "Fira Code" "Lucida Console")
+;    "List of fonts to cycle through.")
+
+;; get all font families
+;(defvar my-font-list (font-family-list))
+
+(cond
+ ((eq system-type 'windows-nt)
+  (defvar my-font-list '("Andika" "Helvetica" "JetBrains Mono" "IntelOne Mono" "Roboto Mono" "Fira Code" "Lucida Console")
+    "List of fonts to cycle through."))
+ ((eq system-type 'gnu/linux)
+  (defvar my-font-list (font-family-list))))
 
 (defvar my-current-font-index 0
     "Index of the current font in the font list.")
