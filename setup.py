@@ -39,26 +39,9 @@ def check_file():
     backup_file(os.path.join('.emacs.d', 'init.el'))
     backup_file('.emacs')
 
-# def copy_init_file(source):
-#     if os.name == "nt":
-#         if source is None:
-#             source = 'default-init.el'
-#         source_file_name = os.path.join(os.getcwd(), source)
-#         target_file_name = os.path.join(home, 'AppData', 'Roaming', '.emacs.d', 'init.el')
-#         #print(f'copy {source_file_name} to {target_file_name}')
-#     else:
-#         if source is None:
-#             source = 'default-init.el'
-#         source_file_name = os.path.join(os.getcwd(), source)
-#         target_file_name = os.path.join(home, '.emacs.d', 'init.el')
-#     with open(source_file_name, 'r') as source_file:
-#         with open(target_file_name, 'w') as target_file:
-#             target_file.write(source_file.read())
-#     print(f'copy {source_file_name} to {target_file_name}')
-
 def copy_file(source, target):
     if source is None:
-        source = 'default-init.el'
+        source = 'vscode-init.el'
     if target is None:
         target = 'init.el'
 
@@ -78,7 +61,7 @@ if __name__ == '__main__':
     parser.add_argument("sourcefile", nargs="?", help="replace init.el from argument")
     args = parser.parse_args()
 
-    my_function_list = [ 'tip-of-the-day.el', 'my-function.el']
+    my_function_list = ['common.el','tip-of-the-day.el', 'my-function.el', 'my-style.el', 'windows-init.el', 'vscode-init.el']
     
     check_backup_folder()
     check_file()

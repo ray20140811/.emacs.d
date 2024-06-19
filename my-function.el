@@ -53,3 +53,48 @@ A single-digit prefix argument gives the top window arg*10%."
 
 (setq my-theme-list (custom-available-themes))
 
+(defun maximize-frame ()
+    "Maximize the current frame."
+    (interactive)
+    (set-frame-parameter nil 'fullscreen 'maximized))
+
+(defun minimize-frame ()
+    "Minimize the current frame."
+    (interactive)
+    (set-frame-parameter nil 'fullscreen 'minimized))
+
+(defun frame-center ()
+  "Center the current frame."
+  (interactive)
+  (let* ((dw (display-pixel-width))
+         (dh (display-pixel-height))
+         (f  (selected-frame))
+         (fw (frame-pixel-width f))
+         (fh (frame-pixel-height f))
+         (x  (- (/ dw 2) (/ fw 2)))
+         (y  (- (/ dh 2) (/ fh 2))))
+    (message (format "dw %d dh %d fw %d fh %d x %d y %d" dw dh fw fh x y))
+    (set-frame-position f x y)))
+
+(defun replace-file (source-file target-file)
+    "Replace the contents of TARGET-FILE with the contents of SOURCE-FILE."
+    (interactive "fSource file: \nfTarget file: ")
+    (with-temp-buffer
+        (insert-file-contents source-file)
+        (write-region (point-min) (point-max) target-file)))    
+
+(defun launch-separate-emacs-in-terminal ()
+  (suspend-emacs "fg ; emacs -nw"))
+
+(defun launch-separate-emacs-under-x ()
+  ;(call-process "sh" nil nil nil "-c" "emacs &"))
+  (call-process "runemacs"))
+
+(defun restart-emacs ()
+  (interactive)
+  ;; We need the new emacs to be spawned after all kill-emacs-hooks
+  ;; have been processed and there is nothing interesting left
+  (let ((kill-emacs-hook (append kill-emacs-hook (list (if (display-graphic-p)
+                                                           #'launch-separate-emacs-under-x
+                                                         #'launch-separate-emacs-in-terminal)))))
+    (save-buffers-kill-emacs)))        
