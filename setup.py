@@ -39,11 +39,12 @@ def check_file():
     backup_file(os.path.join('.emacs.d', 'init.el'))
     backup_file('.emacs')
 
-def copy_file(source, target):
+def copy_file(source, target='init.el'):
     if source is None:
-        source = 'vscode-init.el'
-    if target is None:
-        target = 'init.el'
+        if os.name == "nt":
+            source = 'windows-init.el'
+        else:
+            source = 'vscode-init.el'
 
     if os.name == "nt":
         source_file_name = os.path.join(os.getcwd(), source)
@@ -51,9 +52,11 @@ def copy_file(source, target):
     else:
         source_file_name = os.path.join(os.getcwd(), source)
         target_file_name = os.path.join(home, '.emacs.d', target)
+
     with open(source_file_name, 'r') as source_file:
         with open(target_file_name, 'w') as target_file:
             target_file.write(source_file.read())
+    
     print(f'copy {source_file_name} to {target_file_name}')    
 
 if __name__ == '__main__':
@@ -61,13 +64,13 @@ if __name__ == '__main__':
     parser.add_argument("sourcefile", nargs="?", help="replace init.el from argument")
     args = parser.parse_args()
 
-    my_function_list = ['common.el','tip-of-the-day.el', 'my-function.el', 'my-style.el', 'windows-init.el', 'vscode-init.el']
+    el_list = ['common.el','tip-of-the-day.el', 'my-function.el', 'my-style.el', 'windows-init.el', 'vscode-init.el']
     
     check_backup_folder()
     check_file()
-    copy_file(args.sourcefile, 'init.el')
+    copy_file(args.sourcefile)
     
-    for file in my_function_list:
+    for file in el_list:
         copy_file(file, file)
     
     
