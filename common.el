@@ -68,3 +68,4 @@
 (global-set-key (kbd "<f5>") 'tip-of-the-day)
 (global-set-key (kbd "<f6>") 'my-set-next-font)
 (global-set-key (kbd "<f7>") 'my-next-theme)
+(global-set-key (kbd "M-o") 'browse-url-of-file)
