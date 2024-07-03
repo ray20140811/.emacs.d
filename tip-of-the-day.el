@@ -15,3 +15,8 @@
   (interactive)
   (message (nth my-current-tip-index tip-list))
   (setq my-current-tip-index (mod (1+ my-current-tip-index) (length tip-list))))
+
+(defun tip-of-the-day-random ()
+  "Display a random tip of the day."
+  (interactive)
+  (message (nth (random (length tip-list)) tip-list)))
