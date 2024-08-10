@@ -64,7 +64,7 @@ if __name__ == '__main__':
     parser.add_argument("sourcefile", nargs="?", help="replace init.el from argument")
     args = parser.parse_args()
 
-    el_list = ['common.el','tip-of-the-day.el', 'my-function.el', 'my-style.el', 'windows-init.el', 'vscode-init.el', 'real-python-init.el']
+    el_list = ['common.el','tip-of-the-day.el', 'my-function.el', 'my-style.el', 'windows-init.el', 'vscode-init.el', 'real-python-init.el', 'emacs-from-scratch-init.el']
     
     check_backup_folder()
     check_file()
