@@ -22,6 +22,8 @@
 ;; myPackages contains a list of package names
 (defvar myPackages
   '(better-defaults
+;    elpy
+    flycheck
     material-theme
     )
   )
@@ -39,8 +41,16 @@
 (load-theme 'material t)            ;; Load material theme
 (global-linum-mode t)               ;; Enable line numbers globally
 
-;; User-Defined init.el ends here
+;; ====================================
+;; Development Setup
+;; ====================================
+;; Enable elpy
+;(elpy-enable)
 
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;; ===================================
 ;; My Configuration 
@@ -66,3 +76,7 @@
  ((eq system-type 'gnu/linux)
   (when (member "DejaVu Sans Mono" (font-family-list))
     (set-frame-font "DejaVu Sans Mono" t t))))
+
+;; User-Defined init.el ends here
+
+
