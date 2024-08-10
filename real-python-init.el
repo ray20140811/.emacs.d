@@ -45,7 +45,7 @@
 ;; ===================================
 ;; My Configuration 
 ;; ===================================
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 140)
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
 
