@@ -77,6 +77,27 @@
   (when (member "DejaVu Sans Mono" (font-family-list))
     (set-frame-font "DejaVu Sans Mono" t t))))
 
+(global-flycheck-mode t)
+
+;(setq python-shell-interpreter "D:/Python/Python312/python.exe")
+
+;; 狀態列顯示日期時間
+(setq display-time-day-and-date t)
+
+;; 設置時間顯示格式
+(setq display-time-format "%Y-%m-%d")
+(display-time-mode 1)
+
+
+;(defun open-today-org-file ()
+;  "Open an .org file named with today's date in the format YYYY-MM-DD."
+;  (let ((filename (format-time-string "%Y-%m-%d.org")))
+;    (find-file (expand-file-name filename "D:/Daily"))))
+
+;(add-hook 'emacs-startup-hook 'open-today-org-file)
+
+;(open-today-org-file)
+
 ;; User-Defined init.el ends here
 
 
