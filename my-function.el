@@ -97,4 +97,111 @@ A single-digit prefix argument gives the top window arg*10%."
   (let ((kill-emacs-hook (append kill-emacs-hook (list (if (display-graphic-p)
                                                            #'launch-separate-emacs-under-x
                                                          #'launch-separate-emacs-in-terminal)))))
-    (save-buffers-kill-emacs)))        
+(save-buffers-kill-emacs)))        
+
+;; ========================================
+;; 開啟以當天日期為名的檔案 ex: 2024-08-22.org
+;; ========================================
+;(find-file "d:/Ray/MyProjects/gitweb/MyNotes/Daily")
+
+;(defun open-today-org-file ()
+;  "Open an .org file named with today's date in the format YYYY-MM-DD."
+;  (let ((filename (format-time-string "%Y-%m-%d.org")))
+;    (find-file (expand-file-name filename "~/path/to/your/directory"))))
+
+;(add-hook 'emacs-startup-hook 'open-today-org-file)
+
+;(open-today-org-file)
+
+;; ==========================================
+;; 開啟以前一日日期為名的檔案 ex: 2024-08-22.org
+;; ==========================================
+
+(defun get-previous-day ()
+  "Return the previous day's date as a string in the format YYYY-MM-DD."
+  (let* ((current-time (current-time))
+         (previous-day (time-subtract current-time (days-to-time 1))))
+    (format-time-string "%Y-%m-%d" previous-day)))
+
+;; 測試函數
+;(message (get-previous-day))
+
+(let ((filename (concat (get-previous-day) ".org")))
+  (find-file (expand-file-name filename "~/path/to/your/directory")))
+
+
+;; ====================================================================
+;; 檢查以當天日期命名的 .org 文件是否存在。
+;; 如果存在，則打開該文件；如果不存在，則檢查並打開以前一天日期命名的 .org 文件。
+;; 如果兩個文件都不存在，則顯示一條消息。
+;; ====================================================================
+(defun open-dated-org-file ()
+  "Open today's .org file if it exists, otherwise open yesterday's .org file."
+  (let* ((today (format-time-string "%Y-%m-%d.org"))
+         (yesterday (format-time-string "%Y-%m-%d.org" (time-subtract (current-time) (days-to-time 1))))
+         (today-path (expand-file-name today "~/path/to/your/directory"))
+         (yesterday-path (expand-file-name yesterday "~/path/to/your/directory")))
+    (if (file-exists-p today-path)
+        (find-file today-path)
+      (if (file-exists-p yesterday-path)
+          (find-file yesterday-path)
+        (message "Neither today's nor yesterday's .org file exists.")))))
+
+(add-hook 'emacs-startup-hook 'open-dated-org-file)
+
+;; ====================================================================
+;; backup-my-emacs-init 功能:
+;; 能夠將 init.el 複製一份並以當天日期時間為檔案名,例如init-20240101-123456.el
+;; ====================================================================
+(defun backup-my-emacs-init ()
+  "Backup the current init.el file with a timestamp."
+  (interactive)
+  (let* ((init-file (expand-file-name "init.el" user-emacs-directory))
+         (backup-file (concat user-emacs-directory
+                              "init-"
+                              (format-time-string "%Y%m%d-%H%M%S")
+                              ".el")))
+    (if (file-exists-p init-file)
+        (copy-file init-file backup-file t)
+      (message "init.el does not exist!"))))
+
+;; Bind the function to a key for easy access, e.g., F5
+(global-set-key (kbd "<f5>") 'backup-my-emacs-init)
+
+;; ====================================================================
+;; 改成備份 ~/.emacs檔案
+;; ====================================================================
+(defun backup-my-emacs-file ()
+  "Backup the current ~/.emacs file with a timestamp."
+  (interactive)
+  (let* ((emacs-file (expand-file-name "~/.emacs"))
+         (backup-file (concat (file-name-directory emacs-file)
+                              "emacs-"
+                              (format-time-string "%Y%m%d-%H%M%S")
+                              ".el")))
+    (if (file-exists-p emacs-file)
+        (copy-file emacs-file backup-file t)
+      (message "~/.emacs does not exist!"))))
+
+;; Bind the function to a key for easy access, e.g., F5
+(global-set-key (kbd "<f5>") 'backup-my-emacs-file)
+
+;; ====================================================================
+;; 備份 ~/.emacs檔案,加上如果備份成功, 顯示 "備份成功!" 的英文
+;; ====================================================================
+(defun backup-my-emacs-file ()
+  "Backup the current ~/.emacs file with a timestamp."
+  (interactive)
+  (let* ((emacs-file (expand-file-name "~/.emacs"))
+         (backup-file (concat (file-name-directory emacs-file)
+                              "emacs-"
+                              (format-time-string "%Y%m%d-%H%M%S")
+                              ".el")))
+    (if (file-exists-p emacs-file)
+        (progn
+          (copy-file emacs-file backup-file t)
+          (message "Backup successful!"))
+      (message "~/.emacs does not exist!"))))
+
+;; Bind the function to a key for easy access, e.g., F5
+(global-set-key (kbd "<f5>") 'backup-my-emacs-file)
