@@ -205,3 +205,29 @@ A single-digit prefix argument gives the top window arg*10%."
 
 ;; Bind the function to a key for easy access, e.g., F5
 (global-set-key (kbd "<f5>") 'backup-my-emacs-file)
+
+;; ====================================================================
+;; 備份 ~/.emacs 及 ~/.emacs.d/init.el 到 ~/.emacs.d/backup
+;; ====================================================================
+(defun backup-emacs-config ()
+  "Backup ~/.emacs and ~/.emacs.d/init.el to ~/.emacs.d/backup with date suffix."
+  (interactive)
+  (let* ((backup-dir "~/.emacs.d/backup/")
+         (date-suffix (format-time-string "%Y-%m-%d"))
+         (emacs-file "~/.emacs")
+         (init-file "~/.emacs.d/init.el")
+         (emacs-backup-file (concat backup-dir ".emacs-" date-suffix))
+         (init-backup-file (concat backup-dir "init.el-" date-suffix)))
+    ;; Create backup directory if it doesn't exist
+    (unless (file-directory-p backup-dir)
+      (make-directory backup-dir t))
+    ;; Copy ~/.emacs if it exists
+    (when (file-exists-p emacs-file)
+      (copy-file emacs-file emacs-backup-file t))
+    ;; Copy ~/.emacs.d/init.el if it exists
+    (when (file-exists-p init-file)
+      (copy-file init-file init-backup-file t))
+    (message "Backup completed: %s and %s" emacs-backup-file init-backup-file)))
+
+;; Bind the function to a key for easy access, e.g., F5
+(global-set-key (kbd "<f5>") 'backup-emacs-config)
