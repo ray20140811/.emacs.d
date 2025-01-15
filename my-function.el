@@ -231,3 +231,11 @@ A single-digit prefix argument gives the top window arg*10%."
 
 ;; Bind the function to a key for easy access, e.g., F5
 (global-set-key (kbd "<f5>") 'backup-emacs-config)
+
+;; ====================================================================
+;; 開啟 ~/.emacs.d/init.el
+;; ====================================================================
+(defun dotemacs ()
+  "Open the user's Emacs initialization file."
+  (interactive)
+  (find-file "~/.emacs"))
